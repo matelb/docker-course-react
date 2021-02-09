@@ -12,3 +12,22 @@ before_install:
 #-e añada una environment variable, para correr los test hace falta CI=true
 script:
   - docker run -e CI=true adrianmatesanz/docker-course-react npm run test -- --coverage
+
+#deploy to aws
+#app-> nombre de la app en aws
+#env -> nombre del entorno/env en aws
+#bucket_name -> s3 bucket name
+#bucket_path --> el path de la app dentro del s3, en este caso es el mismo que el nombre de la app
+#se especifica sobre que cambios de que rama se hace el deploy
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "docker-course-react"
+  env: "Dockercoursereact-env"
+  bucket_name: "elasticbeanstalk-us-east-2-679253514327"
+  bucket_path: "docker-course-react"
+  on:
+    branch: main
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
