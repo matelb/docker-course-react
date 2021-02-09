@@ -1,0 +1,14 @@
+#we need super user permisions
+language: generic
+sudo: required
+services:
+  - docker
+
+#
+before_install:
+  - docker build -t adrianmatesanz/docker-course-react -f Dockerfile.dev .
+
+#-- --coverage --> para que no espere la consola, automaticamente salga cuando los test finalicen
+#-e añada una environment variable, para correr los test hace falta CI=true
+script:
+  - docker run -e CI=true adrianmatesanz/docker-course-react npm run test -- --coverage
